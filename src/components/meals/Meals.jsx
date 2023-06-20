@@ -11,6 +11,7 @@ export const Meals = () => {
 	const dispatch = useDispatch();
 	const { meals } = useSelector((state) => state.meals);
 	const { open } = useSelector((state) => state.snackbar);
+	
   console.log('meals: ', meals);
 	console.log('open: ', open);
 	console.log('Hello');

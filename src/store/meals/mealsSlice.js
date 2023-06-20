@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getFoods } from "./mealsThunk";
 
+export const ActionTypeMeals = {
+	MEALS: 'MEALS',
+};
+
 const initialState = {
   meals: [],
   isLoading: false,

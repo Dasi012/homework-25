@@ -1,13 +1,20 @@
-import { styled, Button, TextField } from '@mui/material';
+import { styled, Button, TextField, Box } from '@mui/material';
+
 import React, { useState } from 'react';
+
 import { useDispatch } from 'react-redux';
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import { singInRequest } from '../store/auth/authThunk';
+import { snackBarAction } from '../store/snackBar';
 
 const SignIn = () => {
 	const [gmail, setGmail] = useState('');
 	const [password, setPassword] = useState('');
+
 	const navigate = useNavigate();
+
 	console.log('gmail: ', gmail);
 	console.log('password: ', password);
 
@@ -24,21 +31,27 @@ const SignIn = () => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		const data = {
-			email: gmail,
-			password,
-		};
+		try {
+			const data = {
+				gmail,
+				password,
+			};
 
-		dispatch(singInRequest(data))
-			.unwrap('')
-			.then(() => navigate('/'))
-			.catch((err) => console.log(err));
+			dispatch(singInRequest(data))
+				.unwrap('')
+				.then(() => navigate('/'))
+				.catch((err) => console.log(err));
+
+			dispatch(snackBarAction.doSuccess('SuccessFully'));
+		} catch (error) {
+			dispatch(snackBarAction.doError('Something went wrong'));
+		}
 	};
 
 	return (
 		<>
 			<FormStyled onSubmit={submitHandler}>
-				<div
+				<Box
 					sx={{
 						display: 'flex',
 						flexDirection: 'column',
@@ -46,24 +59,29 @@ const SignIn = () => {
 						alignItems: 'center',
 					}}>
 					<TextField
-						label='Email'
+						id='outlined-basic'
+						label='Gmail'
 						variant='outlined'
 						sx={{ width: '100%' }}
 						value={gmail}
 						onChange={onchageEmailHandler}
 					/>
 					<TextField
+						id='filled-basic'
 						label='Password'
-						variant='filled'
+						variant='outlined'
 						sx={{ widht: '100%' }}
 						value={password}
 						onChange={onchagePasswordHandler}
 					/>
+
 					<Button variant='contained' sx={{ width: '100%' }} type='submit'>
 						Sign up
 					</Button>
-				</div>
-				<Link to='/signup'>Create an account?</Link>
+					<div>
+						Want to open a new account ?<Link to='/signup'>Sing up</Link>
+					</div>
+				</Box>
 			</FormStyled>
 		</>
 	);

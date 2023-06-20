@@ -3,5 +3,6 @@ export const USERS_ROLE = {
 	USER: 'USER',
 };
 export const STORAGE_KEY = {
-	AUTH: 'AUTH',
+	AUTH_KEY: 'AUTH_KEY',
+	AUTH_LOGIN: 'AUTH_LOGIN',
 };

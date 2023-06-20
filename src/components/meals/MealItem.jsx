@@ -7,17 +7,15 @@ import { snackBarAction } from '../../store/snackBar';
 export const MealItem = ({ meal }) => {
 	const dispatch = useDispatch();
 
+	// const token =useSelector((state)=>state.auth)
+
 	const addBasket = async (amount) => {
 		try {
 			await dispatch(addItem({ id: meal._id, amount })).unwrap();
 
-			dispatch(snackBarAction.doSuccess());
+			dispatch(snackBarAction.doSuccess('Successfully added'));
 		} catch (error) {
-			dispatch(
-				snackBarAction.doError(
-					error.message ? error.message : 'Something went wrap!'
-				)
-			);
+			dispatch(snackBarAction.doError('Something went wrap!'));
 		}
 	};
 

@@ -3,7 +3,7 @@ import { singInRequest, singUpRequest } from './authThunk';
 import { STORAGE_KEY } from '../../constants';
 
 export const getInitialState = () => {
-	const json = localStorage.getItem(STORAGE_KEY.AUTH);
+	const json = localStorage.getItem(STORAGE_KEY.AUTH_KEY);
 
 	if (json) {
 		const userData = JSON.parse(json);
@@ -11,33 +11,25 @@ export const getInitialState = () => {
 			isAuthorization: true,
 			token: userData.data.token,
 			user: {
-				name: userData.data.name,
-				email: userData.data.email,
-				role: userData.data.role,
+				name: userData.data.user.name,
+				gmail: userData.data.user.email,
+				role: userData.data.user.role,
 			},
 		};
 	}
+
 	return {
 		isAuthorization: false,
 		token: '',
 		user: {
-			email: '',
+			gmail: '',
 			name: '',
 			role: '',
 		},
 	};
 };
 
-const initialState = {
-	isAuthorization: false,
-	token: '',
-	user: {
-		name: '',
-		gmail: '',
-		password: '',
-		id: '',
-	},
-};
+const initialState = getInitialState();
 
 export const authSlice = createSlice({
 	name: 'auth',
@@ -57,15 +49,27 @@ export const authSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(singUpRequest.fulfilled, (state, action) => {
-			state.isAuthorization = true;
-			state.token = action.payload;
-		});
-		// builder.addCase(singUpRequest.pending, (state) => {});
-		// builder.addCase(singUpRequest.rejected, (state, action) => {});
-		builder.addCase(singInRequest.fulfilled, (state, action) => {
+			console.log(action);
+
 			state.isAuthorization = true;
 			state.token = action.token;
+			state.user = {
+				name: action.payload.name,
+				gmail: action.payload.gmail,
+				role: action.payload.role,
+			};
 		});
+
+		builder.addCase(singInRequest.fulfilled, (state, action) => {
+			state.isAuthorization = true;
+			state.token = action.payload;
+			state.user = {
+				name: action.payload.name,
+				gmail: action.payload.gmail,
+				role: action.payload.role,
+			};
+		});
+
 		builder.addCase(singInRequest.pending, (state) => {
 			state.isAuthorization = false;
 		});

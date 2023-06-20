@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
 	addItem,
 	getBasket,
-	decrementFood,
-	incrementFood,
 } from './basketThunk';
 
 const initialState = {
@@ -20,17 +18,17 @@ export const basketSlice = createSlice({
 		builder
 			.addCase(getBasket.fulfilled, (state, action) => {
 				state.items = action.payload;
-				state.fulfilled = false;
+				state.isLoading = false;
 				state.isError = '';
 			})
 			.addCase(getBasket.pending, (state) => {
 				state.items = [];
-				state.fulfilled = true;
+				state.isLoading = true;
 				state.isError = '';
 			})
 			.addCase(getBasket.rejected, (state, action) => {
 				state.items = [];
-				state.fulfilled = false;
+				state.isLoading = true;
 				state.isError = action.payload;
 			})
 			.addCase(addItem.fulfilled, (state) => {
@@ -45,25 +43,25 @@ export const basketSlice = createSlice({
 				state.isLoading = false;
 				state.isError = action.payload;
 			})
-			.addCase(incrementFood.fulfilled, (state) => {
-				state.isLoading = false;
-			})
-			.addCase(incrementFood.pending, (state) => {
-				state.isLoading = false;
-			})
-			.addCase(incrementFood.rejected, (state, action) => {
-				state.isLoading = false;
-				state.isError = action.payload;
-			})
-			.addCase(decrementFood.fulfilled, (state) => {
-				state.isLoading = false;
-			})
-			.addCase(decrementFood.pending, (state) => {
-				state.isLoading = true;
-			})
-			.addCase(decrementFood.rejected, (state, action) => {
-				state.isLoading = false;
-				state.isError = action.payload;
-			});
+			// .addCase(incrementFood.fulfilled, (state) => {
+			// 	state.isLoading = false;
+			// })
+			// .addCase(incrementFood.pending, (state) => {
+			// 	state.isLoading = false;
+			// })
+			// .addCase(incrementFood.rejected, (state, action) => {
+			// 	state.isLoading = false;
+			// 	state.isError = action.payload;
+			// })
+			// .addCase(decrementFood.fulfilled, (state) => {
+			// 	state.isLoading = false;
+			// })
+			// .addCase(decrementFood.pending, (state) => {
+			// 	state.isLoading = true;
+			// })
+			// .addCase(decrementFood.rejected, (state, action) => {
+			// 	state.isLoading = false;
+			// 	state.isError = action.payload;
+			// });
 	},
 });

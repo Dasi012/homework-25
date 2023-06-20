@@ -9,10 +9,16 @@ import { authActions } from '../../store/auth/authSlice';
 
 export const Header = ({ toggleHandler }) => {
 	const [animationClass, setAnimationClass] = useState('');
+
 	const { items } = useSelector((state) => state.basket);
-	const { isAuthorization } = useSelector((state) => state.auth);
+
+	const { isAuthorization } = useSelector(
+		(state) => state.auth.isAuthorization
+	);
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 
 	const plusAnimation = () => {
 		setAnimationClass('bump');
@@ -34,7 +40,6 @@ export const Header = ({ toggleHandler }) => {
 		navigate('signin');
 	};
 
-	const dispatch = useDispatch();
 
 	const logoutHandler = () => {
 		return dispatch(authActions.logout());
@@ -49,7 +54,7 @@ export const Header = ({ toggleHandler }) => {
 				</OrderBasket>
 				{isAuthorization ? (
 					<StyledButton variant='contained' onClick={logoutHandler}>
-						logout
+						log Out
 					</StyledButton>
 				) : (
 					<Button variant='contained' onClick={navigataToSgnIn}>
